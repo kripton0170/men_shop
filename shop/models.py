@@ -28,7 +28,7 @@ class ProductTagModel(models.Model):
     class Meta:
         verbose_name = 'tag'
         verbose_name_plural = 'tags'
-        
+
 
 class BrandModel(models.Model):
     name = models.CharField(max_length=60, verbose_name=_('name'))
@@ -40,7 +40,7 @@ class BrandModel(models.Model):
     class Meta:
         verbose_name = 'brand'
         verbose_name_plural = 'brands'
-        
+
 
 class SizeModel(models.Model):
     name = models.CharField(max_length=60, verbose_name=_('name'))
@@ -52,7 +52,7 @@ class SizeModel(models.Model):
     class Meta:
         verbose_name = 'size'
         verbose_name_plural = 'sizes'
-        
+
 
 class ColorModel(models.Model):
     code = models.CharField(max_length=60, verbose_name=_('name'))
@@ -85,28 +85,23 @@ class ProductModel(models.Model):
         related_name='products',
         verbose_name=_('tags')
     )
-    
     sizes = models.ManyToManyField(
         SizeModel,
         related_name='products',
         verbose_name=_('sizes')
     )
-    
     colors = models.ManyToManyField(
         ColorModel,
         related_name='products',
         verbose_name=_('colors')
     )
-    
     brand = models.ForeignKey(
         BrandModel,
+        on_delete=models.RESTRICT,
         related_name='products',
-        on_delete = models.RESTRICT,
-        verbose_name=_('brands'),
-        null= True
+        verbose_name=_('brand'),
+        null=True
     )
-    
-    
 
     def get_price(self):
         if self.discount:
